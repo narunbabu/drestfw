@@ -4,6 +4,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer
+from snippets.smallserializers import SmallSnippetSerializer
 
 @csrf_exempt
 def snippet_list(request):
@@ -11,8 +12,9 @@ def snippet_list(request):
     List all code snippets, or create a new snippet.
     """
     if request.method == 'GET':
-        snippets = Snippet.objects.all()
-        serializer = SnippetSerializer(snippets, many=True)
+        snippets=Snippet.objects.all()
+        # snippets = Snippet.objects.get(pk=pk)
+        serializer = SmallSnippetSerializer(snippets, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
